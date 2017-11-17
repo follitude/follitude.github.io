@@ -1,3 +1,143 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>follitude</title><meta name="description" content="A Blog Powered By Hexo"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset/nanoreset.min.css"><link rel="stylesheet" href="/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/atom.xml" title="follitude"></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/" title="follitude"><img class="logo-image" src="/logo.svg" alt="logo"></a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/about" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">GITHUB</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/atom.xml" target="_self">RSS</a></li></ul></header><div class="barba-container"><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/2017/10/27/Replace-HDFS-with-CephFS-in-Hadoop/">Replace HDFS with CephFS in Hadoop （Stand-alone）</a></h2><div class="post-info"><a></a>2017-10-27</div><div class="post-content"></div><a class="read-more" href="/2017/10/27/Replace-HDFS-with-CephFS-in-Hadoop/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/2017/10/14/hello-world/">Hello World</a></h2><div class="post-info"><a></a>2017-10-14</div><div class="post-content"></div><a class="read-more" href="/2017/10/14/hello-world/">more&hellip; </a></article></li></ul></main><footer><div class="paginator"></div><div class="copyright"><p>&copy; 2017 <a href="http://yoursite.com">ryan</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
-    Barba.Pjax.start()
-})</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>follitude</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description" content="Hey, my name is Ryan                       I&apos;m agnostic about violence                        Who will fall in love with ordinary?">
+<meta property="og:type" content="website">
+<meta property="og:title" content="follitude">
+<meta property="og:url" content="http://follitude.github.io/index.html">
+<meta property="og:site_name" content="follitude">
+<meta property="og:description" content="Hey, my name is Ryan                       I&apos;m agnostic about violence                        Who will fall in love with ordinary?">
+<meta property="og:updated_time" content="2017-11-17T07:32:16.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="follitude">
+<meta name="twitter:description" content="Hey, my name is Ryan                       I&apos;m agnostic about violence                        Who will fall in love with ordinary?">
+
+  
+    <link rel="alternate" href="/atom.xml" title="follitude" type="application/atom+xml" />
+  
+
+  
+  <!--[if lte IE 10 ]><link rel="shortcut icon" href="/images/favicon.ico"><![endif]-->
+  <!--[if !IE]><!-->
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <meta name="msapplication-TileImage" content="/images/favicon.png"/>
+  <meta name="msapplication-TileColor" content="#000000"/>
+
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
+
+  <link rel="icon" sizes="256x256" href="/images/favicon.png" />
+  <!--<![endif]-->
+  
+
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro|Material+Icons|Raleway:400,300,700" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="/css/vendors.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+  <script src="/js/vendors.js"></script>
+
+  <script>
+    define('jquery', function () {
+      return window.jQuery;
+    });
+  </script>
+
+
+</head>
+<body>
+
+  <div class="navbar-fixed">
+  <nav id="main-navbar" class="grey lighten-5 z-depth-0" role="navigation">
+    <div class="nav-wrapper container">
+
+      <a id="logo-container" href="/" class="brand-logo center-align">
+        <span>follitude</span>
+        <sub></sub>
+      </a>
+
+      <ul class="right hide-on-med-and-down">
+        
+          <li>
+            <a class="main-nav-link" href="/">Home</a>
+          </li>
+        
+          <li>
+            <a class="main-nav-link" href="/blog">Blog</a>
+          </li>
+        
+      </ul>
+
+      <a href="#" data-activates="nav-mobile" class="button-collapse">
+        <i class="material-icons">menu</i>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+  
+  <li>
+    <a class="main-nav-link" href="/">Home</a>
+  </li>
+  
+  <li>
+    <a class="main-nav-link" href="/blog">Blog</a>
+  </li>
+  
+</ul>
+
+
+  <div id="main-container">
+    
+
+<div class="container">
+
+  <div class="row">
+    <div class="col s12 center-align">
+      <h4 class="card-title color-featured">
+        Hey, my name is Ryan
+      </h4>
+      <h5>
+        I'm agnostic about violence
+      </h5>
+
+      <p>
+        Who will fall in love with ordinary?
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+
+  </div>
+
+  <footer class="page-footer grey darken-2">
+    <div class="footer-copyright">
+      <div class="container">
+        &copy; 2017 ryan
+
+        <div class="right">
+          Powered by <a href="http://hexo.io/" rel="nofollow" class="white-text" target="_blank">Hexo</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+
+</body>
+</html>
