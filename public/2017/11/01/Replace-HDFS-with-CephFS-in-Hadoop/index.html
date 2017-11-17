@@ -3,16 +3,20 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>Blog | follitude</title>
+  <title>Replace HDFS with CephFS in Hadoop （Stand-alone） | follitude</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="follitude">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码hadoop1git clone https://github.com/apache/hadoop.git ceph1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Replace HDFS with CephFS in Hadoop （Stand-alone）">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/Replace-HDFS-with-CephFS-in-Hadoop/index.html">
 <meta property="og:site_name" content="follitude">
+<meta property="og:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码hadoop1git clone https://github.com/apache/hadoop.git ceph1">
+<meta property="og:updated_time" content="2017-11-01T13:29:38.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="follitude">
+<meta name="twitter:title" content="Replace HDFS with CephFS in Hadoop （Stand-alone）">
+<meta name="twitter:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码hadoop1git clone https://github.com/apache/hadoop.git ceph1">
 
   
     <link rel="alternate" href="/atom.xml" title="follitude" type="application/atom+xml" />
@@ -96,14 +100,11 @@
 
 
   <div id="main-container">
-    <div class="container">
+    
+<div class="container">
   <div class="row">
     <div class="col s12">
 
-      
-
-      
-        
 
       <article id="post-Replace-HDFS-with-CephFS-in-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -114,8 +115,8 @@
           
               
   
-    <h1 itemprop="name" class="header">
-      <a class="article-title " href="/2017/11/01/Replace-HDFS-with-CephFS-in-Hadoop/">Replace HDFS with CephFS in Hadoop （Stand-alone）</a>
+    <h1 class="article-title header" itemprop="name">
+      Replace HDFS with CephFS in Hadoop （Stand-alone）
     </h1>
   
 
@@ -179,76 +180,28 @@
         </div>
 
         
-      </article>
-
-
-      
-
-
-
-
-      
-        
-
-      <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-
-        <div class="article-inner">
           
+<nav id="article-nav" class="white">
+  <div class="nav-wrapper">
+    <ul class="row">
+    
 
-          <header class="article-header">
-          
-              
-  
-    <h1 itemprop="name" class="header">
-      <a class="article-title " href="/2017/11/01/hello-world/">Hello World</a>
-    </h1>
-  
+    
+      <li class="col s6">
+        <a href="/2017/11/01/hello-world/" id="article-nav-older" class="article-nav-link-wrap grey-text text-darken-1 right-align truncate">
+          <span class="article-nav-title">Hello World</span>
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </li>
+    
 
+    </ul>
+  </div>
+</nav>
 
-          
-
-            <div class="article-meta">
-              <i class="fa fa-calendar"></i>
-              <time datetime="2017-11-01T13:29:38.788Z" itemprop="datePublished">Nov 01, 2017</time>
-            </div>
-          </header>
-
-
-          <div class="article-entry " itemprop="articleBody">
-            
-              <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-            
-          </div>
-
-          
-
-          <footer class="article-footer">
-            <a data-url="http://yoursite.com/2017/11/01/hello-world/" data-id="cja3feom1000114s50csi8rzy" class="article-share-link">Share</a>
-            
-            
-          </footer>
-
-        </div>
 
         
       </article>
-
-
-      
-
-
-
-
-      
 
 
       
@@ -258,6 +211,10 @@
     </div>
   </div>
 </div>
+
+
+  
+
 
 
   </div>
