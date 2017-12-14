@@ -3,4 +3,5 @@
 	url = https://github.com/tiaanduplessis/hexo-theme-brewski.git
 [submodule "themes/materialize"]
 	path = themes/materialize
-	url = https://github.com/carlos-algms/hexo-theme-materialize.git
+	url = https://github.com/follitude/hexo-theme-materialize.git
+	branch = master

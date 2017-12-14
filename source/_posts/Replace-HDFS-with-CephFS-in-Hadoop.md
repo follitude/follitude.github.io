@@ -1,5 +1,5 @@
 ---
-title: Replace HDFS with CephFS in Hadoop （Stand-alone）
+title: Replace HDFS with CephFS in Hadoop (Stand-alone)
 ---
 ##### 环境
 ```
@@ -14,20 +14,20 @@ Ant：Apache Ant(TM) version 1.9.6
 ```
 
 ##### 下载源码
-###### hadoop
+###### Hadoop
 ```
 git clone https://github.com/apache/hadoop.git
 ```
 
-###### ceph
+###### Ceph
 ```
 git clone https://github.com/ceph/ceph.git
 ```
 
 ##### 分支选择
-根据ceph官网的描述，"Currently requires Hadoop 1.1.X stable series"，使用hadoop的release-1.1.2分支，ceph使用luminous分支
+根据Ceph官网的描述，"Currently requires Hadoop 1.1.X stable series"，使用Hadoop的release-1.1.2分支，Ceph使用luminous分支
 
-##### 编译hadoop
+##### 编译Hadoop
 ```
 cd hpath  
 git checkout release-1.1.2
@@ -42,7 +42,7 @@ ant compile
 ```
 `hpath: 替换为相应的hadoop目录的路径`
 
-##### 编译ceph
+##### 编译Ceph
 ```
 cd cpath  
 git checkout luminous  
@@ -54,7 +54,7 @@ bin/ceph -s
 ```
 `cpath: 替换为相应的ceph目录的路径`
 
-如果显示如下，则ceph单机测试集群已经启动  
+如果显示如下，则Ceph单机测试集群已经启动  
 ```
 cluster:  
   id:     34d6f7d7-3d0b-46c6-848d-69b0dfe33965  
@@ -67,14 +67,14 @@ services:
   osd: 3 osds: 3 up, 3 in
 ```
 
-##### 创建hadoop使用的pool
+##### 创建Hadoop使用的pool
 ```
 bin/ceph osd pool create hadoop 100  
 bin/ceph osd pool set hadoop size 1  
 bin/ceph mds add_data_pool hadoop
 ```
 
-##### 挂载cephfs
+##### 挂载CephFS
 ```
 mkdir cephfs
 sudo mount -t ceph host:port:/ /mnt/cephfs -o name=admin,secret=keyring  
@@ -100,7 +100,7 @@ sudo apt-get install libcephfs-jni libcephfs-java
 ln -s /usr/lib/jni/libcephfs_jni.so hpath/lib/
 ```
 
-下载ceph官网提供的插件hadoop-cephfs.jar  
+下载Ceph官网提供的插件hadoop-cephfs.jar  
 ```
 cp dpath/hadoop-cephfs.jar hpath/lib/  
 ```
@@ -191,15 +191,25 @@ jps
 ```
 可以看到JobTracker和TaskTracker即启动成功
 
+##### 上传文件
 ```
 bin/hadoop fs -put README.txt /
+```
+显示如下
+
+```
 Loading libcephfs-jni from default path:  
 /usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib  
 Loading libcephfs-jni: Success!  
 ```
+可以看到上传过程中调用了libcephfs-jni
 
 ```
-bin/hadoop fs -ls /  
+bin/hadoop fs -ls /
+```
+显示如下
+
+```  
 Loading libcephfs-jni from default path:  
 /usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib  
 Loading libcephfs-jni: Success!  
