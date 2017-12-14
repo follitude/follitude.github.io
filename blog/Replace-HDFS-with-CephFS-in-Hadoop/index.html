@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Replace HDFS with CephFS in Hadoop (Stand-alone) | follitude</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Replace HDFS with CephFS in Hadoop (Stand-alone)">
+<meta property="og:url" content="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/index.html">
+<meta property="og:site_name" content="follitude">
+<meta property="og:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
+<meta property="og:updated_time" content="2017-12-14T03:15:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Replace HDFS with CephFS in Hadoop (Stand-alone)">
+<meta name="twitter:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
+
+  
+    <link rel="alternate" href="/atom.xml" title="follitude" type="application/atom+xml" />
+  
+
+  
+  <!--[if lte IE 10 ]><link rel="shortcut icon" href="/images/favicon.ico"><![endif]-->
+  <!--[if !IE]><!-->
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <meta name="msapplication-TileImage" content="/images/favicon.png"/>
+  <meta name="msapplication-TileColor" content="#000000"/>
+
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
+
+  <link rel="icon" sizes="256x256" href="/images/favicon.png" />
+  <!--<![endif]-->
+  
+
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro|Material+Icons|Raleway:400,300,700" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="/css/vendors.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-93916522-1', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+  <!-- End Google Analytics -->
+
+
+
+  <script src="/js/vendors.js"></script>
+
+  <script>
+    define('jquery', function () {
+      return window.jQuery;
+    });
+  </script>
+
+
+</head>
+<body>
+
+  <div class="navbar-fixed">
+  <nav id="main-navbar" class="grey lighten-5 z-depth-0" role="navigation">
+    <div class="nav-wrapper container">
+
+      <a id="logo-container" href="/" class="brand-logo center-align">
+        <span>follitude</span>
+        <sub>Who will fall in love with ordinary?</sub>
+      </a>
+
+      <ul class="right hide-on-med-and-down">
+        
+          <li>
+            <a class="main-nav-link" href="/">Home</a>
+          </li>
+        
+          <li>
+            <a class="main-nav-link" href="/blog">Blog</a>
+          </li>
+        
+      </ul>
+
+      <a href="#" data-activates="nav-mobile" class="button-collapse">
+        <i class="material-icons">menu</i>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+  
+  <li>
+    <a class="main-nav-link" href="/">Home</a>
+  </li>
+  
+  <li>
+    <a class="main-nav-link" href="/blog">Blog</a>
+  </li>
+  
+</ul>
+
+
+  <div id="main-container">
+    
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+
+
+      <article id="post-Replace-HDFS-with-CephFS-in-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
+
+        <div class="article-inner">
+          
+
+          <header class="article-header">
+          
+              
+  
+    <h1 class="article-title header" itemprop="name">
+      Replace HDFS with CephFS in Hadoop (Stand-alone)
+    </h1>
+  
+
+
+          
+
+            <div class="article-meta">
+              <i class="fa fa-calendar"></i>
+              <time datetime="2017-12-14T03:15:43.000Z" itemprop="datePublished">Dec 14, 2017</time>
+            </div>
+          </header>
+
+
+          <div class="article-entry " itemprop="articleBody">
+            
+              <h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">lsb_release -d</div><div class="line">Ubuntu 16.04.2 LTS</div><div class="line"></div><div class="line">java -version</div><div class="line">openjdk version &quot;1.8.0_131&quot;</div><div class="line"></div><div class="line">ant -version</div><div class="line">Ant：Apache Ant(TM) version 1.9.6</div></pre></td></tr></table></figure>
+<h5 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h5><h6 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/apache/hadoop.git</div></pre></td></tr></table></figure>
+<h6 id="Ceph"><a href="#Ceph" class="headerlink" title="Ceph"></a>Ceph</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/ceph/ceph.git</div></pre></td></tr></table></figure>
+<h5 id="分支选择"><a href="#分支选择" class="headerlink" title="分支选择"></a>分支选择</h5><p>根据Ceph官网的描述，”Currently requires Hadoop 1.1.X stable series”，使用Hadoop的release-1.1.2分支，Ceph使用luminous分支</p>
+<h5 id="编译Hadoop"><a href="#编译Hadoop" class="headerlink" title="编译Hadoop"></a>编译Hadoop</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd hpath  </div><div class="line">git checkout release-1.1.2</div></pre></td></tr></table></figure>
+<p>修改src/mapred/org/apache/hadoop/mapreduce/lib/partition/InputSampler.java第319行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">K[] samples = (K[])sampler.getSample(inf, job);</div></pre></td></tr></table></figure></p>
+<p>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ant compile</div></pre></td></tr></table></figure></p>
+<p><code>hpath: 替换为相应的hadoop目录的路径</code></p>
+<h5 id="编译Ceph"><a href="#编译Ceph" class="headerlink" title="编译Ceph"></a>编译Ceph</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd cpath  </div><div class="line">git checkout luminous  </div><div class="line">./run-make-check.sh</div><div class="line">cd build  </div><div class="line">make vstart        </div><div class="line">../src/vstart.sh -d -n -x -l  </div><div class="line">bin/ceph -s</div></pre></td></tr></table></figure>
+<p><code>cpath: 替换为相应的ceph目录的路径</code></p>
+<p>如果显示如下，则Ceph单机测试集群已经启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cluster:  </div><div class="line">  id:     34d6f7d7-3d0b-46c6-848d-69b0dfe33965  </div><div class="line">  health: HEALTH_OK</div><div class="line"></div><div class="line">services:  </div><div class="line">  mon: 3 daemons, quorum a,b,c  </div><div class="line">  mgr: x(active)  </div><div class="line">  mds: cephfs_a-1/1/1 up  &#123;0=c=up:active&#125;, 2 up:standby  </div><div class="line">  osd: 3 osds: 3 up, 3 in</div></pre></td></tr></table></figure></p>
+<h5 id="创建Hadoop使用的pool"><a href="#创建Hadoop使用的pool" class="headerlink" title="创建Hadoop使用的pool"></a>创建Hadoop使用的pool</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">bin/ceph osd pool create hadoop 100  </div><div class="line">bin/ceph osd pool set hadoop size 1  </div><div class="line">bin/ceph mds add_data_pool hadoop</div></pre></td></tr></table></figure>
+<h5 id="挂载CephFS"><a href="#挂载CephFS" class="headerlink" title="挂载CephFS"></a>挂载CephFS</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir cephfs</div><div class="line">sudo mount -t ceph host:port:/ /mnt/cephfs -o name=admin,secret=keyring</div></pre></td></tr></table></figure>
+<p><code>host: ceph mon的ip或者hostname,可以通过ceph mon stat查看</code><br><code>port: ceph mon的端口</code><br><code>keyring: 替换为ceph路径下build/keyring中[client.admin]的key</code></p>
+<h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><p>添加key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -q -O- &apos;https://download.ceph.com/keys/release.asc&apos; | sudo apt-key add -</div></pre></td></tr></table></figure></p>
+<p>在/etc/apt/sources.list中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">deb http://mirrors.aliyun.com/ceph/debian-luminous xenial main  </div><div class="line">deb-src http://mirrors.aliyun.com/ceph/debian-luminous xenial main</div></pre></td></tr></table></figure></p>
+<p><code>根据具体的OS和ceph可替换相应的版本</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update  </div><div class="line">sudo apt-get install libcephfs-jni libcephfs-java  </div><div class="line">ln -s /usr/lib/jni/libcephfs_jni.so hpath/lib/</div></pre></td></tr></table></figure></p>
+<p>下载Ceph官网提供的插件hadoop-cephfs.jar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp dpath/hadoop-cephfs.jar hpath/lib/</div></pre></td></tr></table></figure></p>
+<p><code>hpath: 替换为相应的hadoop目录的路径</code><br><code>dpath: 替换为相应的下载路径</code></p>
+<h5 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h5><h6 id="hadoop-env-sh"><a href="#hadoop-env-sh" class="headerlink" title="hadoop-env.sh"></a>hadoop-env.sh</h6><p>在文件中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64</div></pre></td></tr></table></figure></p>
+<p><code>替换为相应的jdk路径</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export HADOOP_CLASSPATH=/usr/share/java/libcephfs.jar</div></pre></td></tr></table></figure></p>
+<p><code>通常在/usr/share/java路径下，可以通过locate定位包的位置</code></p>
+<h6 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core.site.xml"></a>core.site.xml</h6><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.default.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>ceph://host:port/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ceph.conf.file<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>cpath/build/ceph.conf<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ceph.auth.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ceph.auth.keyring<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>cpath/build/keyring<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ceph.data.pools<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hadoop<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.ceph.impl<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.fs.ceph.CephFileSystem<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><code>host: ceph mon的ip或者hostname</code><br><code>port: ceph mon的端口</code><br><code>cpath: 替换为相应的ceph目录的路径</code></p>
+<h6 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h6><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.job.tracker<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>host:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><code>host: ceph mon的ip</code></p>
+<h6 id="masters"><a href="#masters" class="headerlink" title="masters"></a>masters</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host</div></pre></td></tr></table></figure>
+<h6 id="slaves"><a href="#slaves" class="headerlink" title="slaves"></a>slaves</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host</div></pre></td></tr></table></figure>
+<p><code>masters和slaves中的host意义同上</code></p>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd hpath  </div><div class="line">bin/start-mapred.sh  </div><div class="line">jps</div></pre></td></tr></table></figure>
+<p>可以看到JobTracker和TaskTracker即启动成功</p>
+<h5 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/hadoop fs -put README.txt /</div></pre></td></tr></table></figure>
+<p>显示如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Loading libcephfs-jni from default path:  </div><div class="line">/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib  </div><div class="line">Loading libcephfs-jni: Success!</div></pre></td></tr></table></figure>
+<p>可以看到上传过程中调用了libcephfs-jni</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/hadoop fs -ls /</div></pre></td></tr></table></figure>
+<p>显示如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Loading libcephfs-jni from default path:  </div><div class="line">/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib  </div><div class="line">Loading libcephfs-jni: Success!  </div><div class="line">Found 2 items  </div><div class="line">drwxrwxrwx   - lab          4 2017-10-25 11:44 /tmp  </div><div class="line">-rwxrwxrwx   3 lab       1366 2017-10-25 11:44 /README.txt</div></pre></td></tr></table></figure>
+
+            
+          </div>
+
+          
+
+          <footer class="article-footer">
+            <a data-url="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/" data-id="cjb5wxgbh00016tr9vk99oxrt" class="article-share-link">Share</a>
+            
+            
+          </footer>
+
+        </div>
+
+        
+          
+<nav id="article-nav" class="white">
+  <div class="nav-wrapper">
+    <ul class="row">
+    
+      <li class="col s6">
+        <a href="/blog/Use-RDMA-Emulation-in-Software-Using-SoftiWARP/" id="article-nav-newer" class="article-nav-link-wrap grey-text text-darken-1 truncate">
+          <i class="fa fa-arrow-left"></i>
+          <span class="article-nav-title">Use RDMA Emulation in Software Using SoftiWARP</span>
+        </a>
+      </li>
+    
+
+    
+      <li class="col s6">
+        <a href="/blog/hello-world/" id="article-nav-older" class="article-nav-link-wrap grey-text text-darken-1 right-align truncate">
+          <span class="article-nav-title">Hello World</span>
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </li>
+    
+
+    </ul>
+  </div>
+</nav>
+
+
+        
+      </article>
+
+
+      
+
+
+
+    </div>
+  </div>
+</div>
+
+
+  
+
+
+
+  </div>
+
+  <footer class="page-footer grey darken-2">
+    <div class="footer-copyright">
+      <div class="container">
+        &copy; 2017 ryan
+
+        <div class="right">
+          Powered by <a href="http://hexo.io/" rel="nofollow" class="white-text" target="_blank">Hexo</a>
+        </div>
+      </div>
+    </div>
+  <!-- ad start -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9013486414538112",
+    enable_page_level_ads: true
+  });
+</script>
+
+  <!-- ad end -->
+
+  </footer>
+
+  <script src="/js/app.js"></script>
+
+</body>
+</html>
