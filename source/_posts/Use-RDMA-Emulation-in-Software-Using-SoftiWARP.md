@@ -4,23 +4,19 @@ title: Use RDMA Emulation in Software Using SoftiWARP
 ##### 环境
 ```
 lsb_release -d
-Ubuntu 16.04.2 LTS
+Ubuntu 16.04.3 LTS
 uname -sr
 Linux 4.8.13 
 ```
-`适用于4.8.x版本内核`
+`SoftiWARP可以支持4.8.x版本内核`([zrlio/softiwarp#6](https://github.com/zrlio/softiwarp/issues/6))
 
 ##### 安装依赖
 ```
-sudo apt-get install libncurses5 libncurses5-dev libelf-dev binutils-dev  
-sudo apt-get install libibcm-dev libibcm1 
-sudo apt-get install libnl-3-dev  
-wget https://www.openfabrics.org/downloads/verbs/ libibverbs-1.2.1.tar.gz  
-tar zxvf libibverbs-1.2.1.tar.gz  
-cd libibverbs-1.2.1   
-./configure  
-make
-sudo make install
+sudo add-apt-repository ppa:linux-rdma/rdma-core-daily
+sudo apt update
+sudo apt install libncurses5-dev libtool autoconf automake
+sudo apt install libnl-3-dev libnl-route-3-dev 
+sudo apt install ibverbs-utils
 ```
 
 ##### 添加规则文件
@@ -49,7 +45,9 @@ cd softiwarp/userlib/
 ./configure 
 make 
 sudo make install  
-ln -s /usr/local/etc/libibverbs.d /etc/libibverbs.d
+sudo ln -s /usr/local/etc/libibverbs.d /etc/libibverbs.d
+sudo cp softiwarp/userlib/src/.libs/libsiw-rdmav2.so /lib/x86_64-linux-gnu/  
+sudo ldconfig 
 ```
 
 ##### 编译内核模块  
@@ -66,9 +64,7 @@ sudo modprobe rdma_ucm
 sudo mkdir /lib/modules/4.8.x/extra  
 sudo cp siw.ko /lib/modules/4.8.x/extra  
 sudo insmod /lib/modules/4.8.x/extra/siw.ko  
-depmod  
-cp ./userlib/src/.libs/libsiw-rdmav2.so /lib/x86_64-linux-gnu/  
-sudo ldconfig  
+sudo depmod   
 sudo modprobe siw
 ```
 
@@ -96,7 +92,7 @@ ls /dev/infiniband/
 显示如下
 
 ```
-rdma_cm  uverbs0  uverbs1  uverbs2
+rdma_cm  uverbs0  uverbs1
 ```
 
 ###### userspace可使用的RDMA设备
@@ -110,7 +106,6 @@ ibv_devices
     ------          	----------------
     siw_enp0s25     	3417eb9bf6d00000
     siw_lo          	7369775f6c6f0000
-    siw_docker0     	024244a5225b0000
 ```
 
 ###### userspace可使用的RDMA设备的相关信息
@@ -155,24 +150,33 @@ hca_id:	siw_lo
 			port_lid:		0
 			port_lmc:		0x00
 			link_layer:		Ethernet
+```
 
-hca_id:	siw_docker0
-	transport:			iWARP (1)
-	fw_ver:				0.0.0
-	node_guid:			0242:44a5:225b:0000
-	sys_image_guid:			0242:44a5:225b:0000
-	vendor_id:			0x626d74
-	vendor_part_id:			0
-	hw_ver:				0x0
-	phys_port_cnt:			1
-		port:	1
-			state:			PORT_ACTIVE (4)
-			max_mtu:		1024 (3)
-			active_mtu:		1024 (3)
-			sm_lid:			0
-			port_lid:		0
-			port_lmc:		0x00
-			link_layer:		Ethernet
+##### 测试
+输入
+
+```
+rping -s
+```
+开启另一个终端，输入
+
+```
+rping -c -a 127.0.0.1 -C 10 -v
+```
+显示如下
+
+```
+ping data: rdma-ping-0: ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqr
+ping data: rdma-ping-1: BCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrs
+ping data: rdma-ping-2: CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrst
+ping data: rdma-ping-3: DEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu
+ping data: rdma-ping-4: EFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuv
+ping data: rdma-ping-5: FGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvw
+ping data: rdma-ping-6: GHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwx
+ping data: rdma-ping-7: HIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxy
+ping data: rdma-ping-8: IJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz
+ping data: rdma-ping-9: JKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyzA
+client DISCONNECT EVENT...
 ```
 
 

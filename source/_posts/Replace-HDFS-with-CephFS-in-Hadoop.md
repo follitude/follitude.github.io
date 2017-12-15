@@ -4,7 +4,7 @@ title: Replace HDFS with CephFS in Hadoop (Stand-alone)
 ##### 环境
 ```
 lsb_release -d
-Ubuntu 16.04.2 LTS
+Ubuntu 16.04.3 LTS
 
 java -version
 openjdk version "1.8.0_131"
@@ -95,8 +95,8 @@ deb-src http://mirrors.aliyun.com/ceph/debian-luminous xenial main
 ```
 `根据具体的OS和ceph可替换相应的版本`  
 ```
-sudo apt-get update  
-sudo apt-get install libcephfs-jni libcephfs-java  
+sudo apt update  
+sudo apt install libcephfs-jni libcephfs-java  
 ln -s /usr/lib/jni/libcephfs_jni.so hpath/lib/
 ```
 
