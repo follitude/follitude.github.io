@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   
+  <meta name="msvalidate.01" content="A5E9C03176912B3836BF5815561DDAD0" />
   <title>Blog: 2017 | follitude</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -145,7 +146,7 @@
           <div class="article-entry " itemprop="articleBody">
             
               <h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">lsb_release -d</div><div class="line">Ubuntu 16.04.3 LTS</div><div class="line">uname -sr</div><div class="line">Linux 4.8.13</div></pre></td></tr></table></figure>
-<p><code>SoftiWARP适用于4.8.x版本内核</code>(<a href="https://github.com/zrlio/softiwarp/issues/6" target="_blank" rel="noopener">zrlio/softiwarp#6</a>)</p>
+<p><code>SoftiWARP可以支持4.8.x版本内核</code>(<a href="https://github.com/zrlio/softiwarp/issues/6" target="_blank" rel="noopener">zrlio/softiwarp#6</a>)</p>
 <h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:linux-rdma/rdma-core-daily</div><div class="line">sudo apt update</div><div class="line">sudo apt install libncurses5-dev libtool autoconf automake</div><div class="line">sudo apt install libnl-3-dev libnl-route-3-dev </div><div class="line">sudo apt install ibverbs-utils</div></pre></td></tr></table></figure>
 <h5 id="添加规则文件"><a href="#添加规则文件" class="headerlink" title="添加规则文件"></a>添加规则文件</h5><h6 id="etc-udev-rules-d-40-ib-rules"><a href="#etc-udev-rules-d-40-ib-rules" class="headerlink" title="/etc/udev/rules.d/40-ib.rules"></a>/etc/udev/rules.d/40-ib.rules</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">####  /etc/udev/rules.d/40-ib.rules ####  </div><div class="line">KERNEL==&quot;umad*&quot;, NAME=&quot;infiniband/%k&quot;</div><div class="line">KERNEL==&quot;issm*&quot;, NAME=&quot;infiniband/%k&quot;</div><div class="line">KERNEL==&quot;ucm*&quot;, NAME=&quot;infiniband/%k&quot;, MODE=&quot;0666&quot;</div><div class="line">KERNEL==&quot;uverbs*&quot;, NAME=&quot;infiniband/%k&quot;, MODE=&quot;0666&quot;</div><div class="line">KERNEL==&quot;uat&quot;, NAME=&quot;infiniband/%k&quot;, MODE=&quot;0666&quot;</div><div class="line">KERNEL==&quot;ucma&quot;, NAME=&quot;infiniband/%k&quot;, MODE=&quot;0666&quot;</div><div class="line">KERNEL==&quot;rdma_cm&quot;, NAME=&quot;infiniband/%k&quot;, MODE=&quot;0666&quot;</div></pre></td></tr></table></figure>
 <h5 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h5><h6 id="SoftiWARP"><a href="#SoftiWARP" class="headerlink" title="SoftiWARP"></a>SoftiWARP</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/zrlio/softiwarp.git</div></pre></td></tr></table></figure>
@@ -177,7 +178,7 @@
           
 
           <footer class="article-footer">
-            <a data-url="https://follitude.github.io/blog/Use-RDMA-Emulation-in-Software-Using-SoftiWARP/" data-id="cjb5xxdgu0002her9bqfnli5t" class="article-share-link">Share</a>
+            <a data-url="https://follitude.github.io/blog/Use-RDMA-Emulation-in-Software-Using-SoftiWARP/" data-id="cjb7n858u0003nlr9kr0phqev" class="article-share-link">Share</a>
             
             
           </footer>
@@ -267,7 +268,7 @@
           
 
           <footer class="article-footer">
-            <a data-url="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/" data-id="cjb5xxdgo0001her9sdeefy1u" class="article-share-link">Share</a>
+            <a data-url="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/" data-id="cjb7n858r0002nlr9wym2qbwe" class="article-share-link">Share</a>
             
             
           </footer>
@@ -328,7 +329,7 @@
           
 
           <footer class="article-footer">
-            <a data-url="https://follitude.github.io/blog/hello-world/" data-id="cjb5xxdgx0003her9mq3ee75j" class="article-share-link">Share</a>
+            <a data-url="https://follitude.github.io/blog/hello-world/" data-id="cjb7n858k0001nlr97ii49w19" class="article-share-link">Share</a>
             
             
           </footer>
