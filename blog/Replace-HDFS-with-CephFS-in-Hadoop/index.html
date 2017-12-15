@@ -7,16 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git ">
+  <meta name="description" content="环境12345678lsb_release -dUbuntu 16.04.3 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Replace HDFS with CephFS in Hadoop (Stand-alone)">
 <meta property="og:url" content="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/index.html">
 <meta property="og:site_name" content="follitude">
-<meta property="og:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
-<meta property="og:updated_time" content="2017-12-14T03:15:43.000Z">
+<meta property="og:description" content="环境12345678lsb_release -dUbuntu 16.04.3 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
+<meta property="og:updated_time" content="2017-12-15T03:52:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Replace HDFS with CephFS in Hadoop (Stand-alone)">
-<meta name="twitter:description" content="环境12345678lsb_release -dUbuntu 16.04.2 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
+<meta name="twitter:description" content="环境12345678lsb_release -dUbuntu 16.04.3 LTSjava -versionopenjdk version &amp;quot;1.8.0_131&amp;quot;ant -versionAnt：Apache Ant(TM) version 1.9.6 下载源码Hadoop1git clone https://github.com/apache/hadoop.git Ceph1">
 
   
     <link rel="alternate" href="/atom.xml" title="follitude" type="application/atom+xml" />
@@ -145,7 +145,7 @@
 
           <div class="article-entry " itemprop="articleBody">
             
-              <h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">lsb_release -d</div><div class="line">Ubuntu 16.04.2 LTS</div><div class="line"></div><div class="line">java -version</div><div class="line">openjdk version &quot;1.8.0_131&quot;</div><div class="line"></div><div class="line">ant -version</div><div class="line">Ant：Apache Ant(TM) version 1.9.6</div></pre></td></tr></table></figure>
+              <h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">lsb_release -d</div><div class="line">Ubuntu 16.04.3 LTS</div><div class="line"></div><div class="line">java -version</div><div class="line">openjdk version &quot;1.8.0_131&quot;</div><div class="line"></div><div class="line">ant -version</div><div class="line">Ant：Apache Ant(TM) version 1.9.6</div></pre></td></tr></table></figure>
 <h5 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h5><h6 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/apache/hadoop.git</div></pre></td></tr></table></figure>
 <h6 id="Ceph"><a href="#Ceph" class="headerlink" title="Ceph"></a>Ceph</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/ceph/ceph.git</div></pre></td></tr></table></figure>
 <h5 id="分支选择"><a href="#分支选择" class="headerlink" title="分支选择"></a>分支选择</h5><p>根据Ceph官网的描述，”Currently requires Hadoop 1.1.X stable series”，使用Hadoop的release-1.1.2分支，Ceph使用luminous分支</p>
@@ -161,7 +161,7 @@
 <p><code>host: ceph mon的ip或者hostname,可以通过ceph mon stat查看</code><br><code>port: ceph mon的端口</code><br><code>keyring: 替换为ceph路径下build/keyring中[client.admin]的key</code></p>
 <h5 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h5><p>添加key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -q -O- &apos;https://download.ceph.com/keys/release.asc&apos; | sudo apt-key add -</div></pre></td></tr></table></figure></p>
 <p>在/etc/apt/sources.list中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">deb http://mirrors.aliyun.com/ceph/debian-luminous xenial main  </div><div class="line">deb-src http://mirrors.aliyun.com/ceph/debian-luminous xenial main</div></pre></td></tr></table></figure></p>
-<p><code>根据具体的OS和ceph可替换相应的版本</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update  </div><div class="line">sudo apt-get install libcephfs-jni libcephfs-java  </div><div class="line">ln -s /usr/lib/jni/libcephfs_jni.so hpath/lib/</div></pre></td></tr></table></figure></p>
+<p><code>根据具体的OS和ceph可替换相应的版本</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt update  </div><div class="line">sudo apt install libcephfs-jni libcephfs-java  </div><div class="line">ln -s /usr/lib/jni/libcephfs_jni.so hpath/lib/</div></pre></td></tr></table></figure></p>
 <p>下载Ceph官网提供的插件hadoop-cephfs.jar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp dpath/hadoop-cephfs.jar hpath/lib/</div></pre></td></tr></table></figure></p>
 <p><code>hpath: 替换为相应的hadoop目录的路径</code><br><code>dpath: 替换为相应的下载路径</code></p>
 <h5 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h5><h6 id="hadoop-env-sh"><a href="#hadoop-env-sh" class="headerlink" title="hadoop-env.sh"></a>hadoop-env.sh</h6><p>在文件中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64</div></pre></td></tr></table></figure></p>
@@ -190,7 +190,7 @@
           
 
           <footer class="article-footer">
-            <a data-url="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/" data-id="cjb5xo3i300019rr9wv30sbkw" class="article-share-link">Share</a>
+            <a data-url="https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/" data-id="cjb5xxdgo0001her9sdeefy1u" class="article-share-link">Share</a>
             
             
           </footer>
