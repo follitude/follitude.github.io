@@ -82,5 +82,7 @@ theme: materialize
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:follitude/follitude.github.io.git
+  repo:
+     github: git@github.com:follitude/follitude.github.io.git
+#     gitcafe: git@git.coding.net:follitude/follitude.git
   branch: master
