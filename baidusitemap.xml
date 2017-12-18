@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>https://follitude.github.io/blog/Use-RDMA-Emulation-in-Software-Using-SoftiWARP/</loc>
+    <lastmod>2017-12-15T04:07:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Use RDMA Emulation in Software Using SoftiWARP</title>
+        <pubTime>2017-12-14T03:15:52.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://follitude.github.io/blog/Replace-HDFS-with-CephFS-in-Hadoop/</loc>
+    <lastmod>2017-12-15T03:52:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>Replace HDFS with CephFS in Hadoop (Stand-alone)</title>
+        <pubTime>2017-12-14T03:15:43.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://follitude.github.io/blog/hello-world/</loc>
+    <lastmod>2017-12-14T03:06:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2017-12-14T03:06:21.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>
